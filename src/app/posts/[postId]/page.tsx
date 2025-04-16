@@ -1,6 +1,8 @@
+import { RelatedPosts } from "@/app/_components/RelatedPosts";
 import { fetchPost } from "@/app/_state/effects";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function PostPage({ params }: { params: { postId: string } }) {
   const post = await fetchPost(params.postId)
@@ -21,6 +23,11 @@ export default async function PostPage({ params }: { params: { postId: string } 
         <div className="flex flex-col gap-4 mt-4">
           <p>{post.body}</p>
         </div>
+        
+        {/* Related Posts Section */}
+        <Suspense fallback={<RelatedPosts.Skeleton />}>
+          <RelatedPosts />
+        </Suspense>
       </div>
     </div>
   );
